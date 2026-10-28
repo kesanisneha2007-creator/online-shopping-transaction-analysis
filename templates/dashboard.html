@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Dashboard · Shoplytics{% endblock %}
+{% block content %}
+<section class="hero">
+  <div><p class="eyebrow">TRANSACTION INTELLIGENCE</p><h1>Shopping overview</h1>
+  <p>Monitor orders, transaction values, payments, and product movement.</p></div>
+  <a class="button" href="{{ url_for('add_order') }}">+ Create order</a>
+</section>
+<div class="stats">
+  <article class="stat"><span>All orders</span><strong>{{ summary.total_orders or 0 }}</strong></article>
+  <article class="stat"><span>Eligible orders</span><strong>{{ summary.valid_orders or 0 }}</strong></article>
+  <article class="stat"><span>Eligible transaction value</span><strong>{{ gross|money }}</strong></article>
+  <article class="stat"><span>Average order value</span><strong>{{ avg|money }}</strong></article>
+</div>
+<div class="section-heading"><h2>Latest orders</h2><a href="{{ url_for('orders') }}">View all →</a></div>
+<div class="table-wrap"><table><thead><tr><th>Order</th><th>Date</th><th>Payment</th><th>Status</th><th>Total</th></tr></thead><tbody>
+{% for o in recent %}<tr><td><a href="{{ url_for('order_detail', order_id=o.order_id) }}">#{{ o.order_id }}</a></td><td>{{ o.order_date }}</td><td>{{ o.payment_method }}</td><td><span class="pill">{{ o.order_status }}</span></td><td>{{ o.order_total|money }}</td></tr>
+{% else %}<tr><td colspan="5" class="empty">No orders yet. Create your first order.</td></tr>{% endfor %}
+</tbody></table></div>
+<p class="note">Cancelled and refunded orders are excluded from transaction value and average order value.</p>
+{% endblock %}

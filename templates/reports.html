@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Reports · Shoplytics{% endblock %}
+{% block content %}
+<div class="section-heading"><div><p class="eyebrow">DATA ANALYSIS</p><h1>Transaction reports</h1><p>Aggregations are calculated from order and order-item records.</p></div></div>
+<div class="stats">
+<article class="stat"><span>Total orders</span><strong>{{ metrics.orders }}</strong></article>
+<article class="stat"><span>Eligible orders</span><strong>{{ metrics.eligible_orders }}</strong></article>
+<article class="stat"><span>Eligible transaction value</span><strong>{{ metrics.gross_value|money }}</strong></article>
+<article class="stat"><span>Average order value</span><strong>{{ metrics.average_value|money }}</strong></article>
+<article class="stat"><span>Eligible product units</span><strong>{{ metrics.units }}</strong></article>
+</div>
+<div class="chart-grid">
+{% for file, title in [('monthly_orders.png','Monthly order volume'),('payment_methods.png','Payment method distribution'),('order_status.png','Order status distribution'),('top_products.png','Product units sold')] %}
+<article class="chart-card"><h2>{{ title }}</h2><img src="{{ url_for('static', filename='generated/' + file) }}" alt="{{ title }} chart" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'"><p class="empty" style="display:none">Charts appear after the database has order data.</p></article>
+{% endfor %}
+</div>
+<h2>Transaction summary</h2>
+<div class="table-wrap"><table><thead><tr><th>Order</th><th>Date</th><th>Status</th><th>Payment</th><th>Units</th><th>Order value</th></tr></thead><tbody>
+{% for o in orders %}<tr><td><a href="{{ url_for('order_detail', order_id=o.order_id) }}">#{{ o.order_id }}</a></td><td>{{ o.order_date }}</td><td>{{ o.order_status }}</td><td>{{ o.payment_method }}</td><td>{{ o.item_count }}</td><td>{{ o.order_total|money }}</td></tr>
+{% else %}<tr><td colspan="6" class="empty">No transactions available.</td></tr>{% endfor %}
+</tbody></table></div>
+<p class="note">Cancelled and refunded orders are excluded from transaction value, average order value, and units sold. They are retained in total order counts, monthly order volume, and status distribution.</p>
+{% endblock %}

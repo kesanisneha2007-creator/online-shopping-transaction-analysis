@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Order #{{ order.order_id }} · Shoplytics{% endblock %}
+{% block content %}
+<div class="section-heading"><div><p class="eyebrow">TRANSACTION DETAILS</p><h1>Order #{{ order.order_id }}</h1><p>{{ order.order_date }} · {{ order.payment_method }}</p></div><a class="button secondary" href="{{ url_for('orders') }}">Back to orders</a></div>
+<div class="panel status-panel"><div><strong>Current status: {{ order.order_status }}</strong></div>
+<form method="post" action="{{ url_for('update_status', order_id=order.order_id) }}" class="inline-form"><select name="order_status">{% for s in ['Pending','Processing','Shipped','Delivered','Cancelled','Refunded'] %}<option {% if s == order.order_status %}selected{% endif %}>{{ s }}</option>{% endfor %}</select><button class="button" type="submit">Update status</button></form></div>
+<div class="table-wrap"><table><thead><tr><th>Product</th><th>Category</th><th>Quantity</th><th>Unit price</th><th>Line total</th></tr></thead><tbody>
+{% for i in items %}<tr><td>{{ i.product_name }}</td><td>{{ i.category }}</td><td>{{ i.quantity }}</td><td>{{ i.unit_price|money }}</td><td>{{ i.line_total|money }}</td></tr>{% endfor %}
+<tr><td colspan="4" class="total-label">Calculated order total</td><td><strong>{{ total|money }}</strong></td></tr>
+</tbody></table></div>
+{% endblock %}

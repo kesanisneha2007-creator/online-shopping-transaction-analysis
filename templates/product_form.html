@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Add product · Shoplytics{% endblock %}
+{% block content %}
+<div class="form-panel"><p class="eyebrow">CATALOG</p><h1>Add product</h1>
+<form method="post">
+<label>Product name<input name="product_name" required maxlength="150" placeholder="e.g. Wireless Mouse"></label>
+<label>Category<input name="category" required maxlength="100" placeholder="e.g. Electronics"></label>
+<label>Unit price (₹)<input name="unit_price" required type="number" min="0" step="0.01" placeholder="599.00"></label>
+<div class="form-actions"><a class="button secondary" href="{{ url_for('products') }}">Cancel</a><button class="button" type="submit">Save product</button></div>
+</form></div>
+{% endblock %}

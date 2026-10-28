@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Database setup needed{% endblock %}
+{% block content %}
+<div class="panel"><h1>Database connection failed</h1>
+<p>The app could not connect to MySQL. Check that MySQL is running, the database exists, and your <code>.env</code> credentials are correct.</p>
+<p class="error-detail">{{ error }}</p><p>Follow the setup steps in <code>README.md</code>, then refresh this page.</p></div>
+{% endblock %}

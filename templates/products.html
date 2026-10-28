@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Products · Shoplytics{% endblock %}
+{% block content %}
+<div class="section-heading"><div><p class="eyebrow">CATALOG</p><h1>Products</h1></div><a class="button" href="{{ url_for('add_product') }}">+ Add product</a></div>
+<div class="table-wrap"><table><thead><tr><th>ID</th><th>Product</th><th>Category</th><th>Unit price</th></tr></thead><tbody>
+{% for p in products %}<tr><td>{{ p.product_id }}</td><td>{{ p.product_name }}</td><td>{{ p.category }}</td><td>{{ p.unit_price|money }}</td></tr>
+{% else %}<tr><td colspan="4" class="empty">No products found.</td></tr>{% endfor %}
+</tbody></table></div>
+{% endblock %}

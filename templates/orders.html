@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Orders · Shoplytics{% endblock %}
+{% block content %}
+<div class="section-heading"><div><p class="eyebrow">TRANSACTIONS</p><h1>Orders</h1></div><a class="button" href="{{ url_for('add_order') }}">+ Create order</a></div>
+<div class="table-wrap"><table><thead><tr><th>Order</th><th>Date</th><th>Payment</th><th>Status</th><th>Items total</th><th></th></tr></thead><tbody>
+{% for o in orders %}<tr><td>#{{ o.order_id }}</td><td>{{ o.order_date }}</td><td>{{ o.payment_method }}</td><td><span class="pill">{{ o.order_status }}</span></td><td>{{ o.order_total|money }}</td><td><a href="{{ url_for('order_detail', order_id=o.order_id) }}">Details →</a></td></tr>
+{% else %}<tr><td colspan="6" class="empty">No orders found.</td></tr>{% endfor %}
+</tbody></table></div>
+{% endblock %}
